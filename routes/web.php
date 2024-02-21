@@ -8,6 +8,22 @@ use Illuminate\Support\Facades\Route;
 
 // index, show, create, store, edit, update, destroy
 
+Route::get('ping', function () {
+    $mailchimp = new \MailchimpMarketing\ApiClient();
+
+    $mailchimp->setConfig([
+        'apiKey' => config('services.mailchimp.key'),
+        'server' => 'us17'
+    ]);
+
+    $response = $mailchimp->lists->addListMember('bc56cd9398', [
+        'email_address' => 'lukajikia13@gmail.com',
+        'status' => 'subscribed'
+    ]);
+
+    ddd($response);
+});
+
 Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
